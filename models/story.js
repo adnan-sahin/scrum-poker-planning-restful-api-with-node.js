@@ -15,10 +15,14 @@ const StorySchema = new Schema({
     required: true,
     default: false
   },
+  plan_id: {
+    type: Schema.Types.ObjectId, ref: 'Plan',
+    required: true
+  },
   date: {
     type: Date,
     default: Date.now
   }
 })
 
-module.exports = mongoose.model('stories', StorySchema)
+module.exports = mongoose.model('Story', StorySchema, 'stories')

@@ -20,7 +20,21 @@ app.use(bodyParser.json());
 const Story = require('./models/story')
 const storyRouter = require('./routes/storyRouter')(Story)
 
+const Plan = require('./models/plan')
+const planRouter = require('./routes/planRouter')(Plan)
+
+const Person = require('./models/person')
+const personRouter = require('./routes/personRouter')(Person)
+
+const PersonStory = require('./models/personStory')
+const personStoryRouter = require('./routes/personStoryRouter')(PersonStory)
+
+
+app.use('/api', planRouter)
 app.use('/api', storyRouter)
+app.use('/api', personRouter)
+app.use('/api', personStoryRouter)
+
 
 app.server = app.listen(port, () => {
   console.log(`Server is running on ${port}`);

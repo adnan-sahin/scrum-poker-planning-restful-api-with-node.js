@@ -3,10 +3,13 @@ function storyController(Story) {
   function post(req, res) {
     const story = new Story(req.body)
     console.log('story', story);
-    debugger;
     if (!req.body.title) {
       res.status(400);
       return res.send({ code: 1002, message: 'Title is required.' })
+    }
+    if (!req.body.plan_id) {
+      res.status(400);
+      return res.send({ code: 1002, message: 'Plan id is required.' })
     }
     story.save();
     return res.status(201).json(story);
@@ -30,8 +33,7 @@ function storyController(Story) {
   }
 
   function getById(req, res) {
-    const story = req.story.toJSON();
-    return res.json(story);
+    return res.json(req.story);
   }
 
   function put(req, res) {
