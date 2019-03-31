@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const StorySchema = new Schema({
   title: {
@@ -11,18 +11,20 @@ const StorySchema = new Schema({
     type: Number
   },
   status: {
-    type: Boolean,
+    type: String,
+    enum: ['NOTVOTED', 'ACTIVE', 'VOTED'],
     required: true,
-    default: false
+    default: 'NOTVOTED'
   },
   plan_id: {
-    type: Schema.Types.ObjectId, ref: 'Plan',
+    type: Schema.Types.ObjectId,
+    ref: 'Plan',
     required: true
   },
   date: {
     type: Date,
     default: Date.now
   }
-})
+});
 
-module.exports = mongoose.model('Story', StorySchema, 'stories')
+module.exports = mongoose.model('Story', StorySchema, 'stories');

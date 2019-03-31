@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const planSchema = new Schema({
   name: {
@@ -12,7 +12,11 @@ const planSchema = new Schema({
     type: Number,
     required: true,
     min: 1
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
-})
+});
 
-module.exports = mongoose.model('Plan', planSchema, 'plans')
+module.exports = mongoose.model('Plan', planSchema, 'plans');

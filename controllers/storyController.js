@@ -1,35 +1,41 @@
-
 function storyController(Story) {
   function post(req, res) {
-    const story = new Story(req.body)
+    const story = new Story(req.body);
     console.log('story', story);
     if (!req.body.title) {
       res.status(400);
-      return res.send({ code: 1002, message: 'Title is required.' })
+      return res.send({ code: 1002, message: 'Title is required.' });
     }
     if (!req.body.plan_id) {
       res.status(400);
-      return res.send({ code: 1002, message: 'Plan id is required.' })
+      return res.send({ code: 1002, message: 'Plan id is required.' });
     }
     story.save();
     return res.status(201).json(story);
   }
 
   function get(req, res) {
-    const query = {}
+    const query = {};
+
+    if (req.query.plan_id) {
+      query.plan_id = req.query.plan_id;
+    }
+    if (req.query.status) {
+      query.status = req.query.status;
+    }
 
     Story.find(query, (err, stories) => {
       if (err) {
-        return res.send(err)
+        return res.send(err);
       }
       const mappedStories = stories.map(story => {
-        const newStory = story.toJSON()
-        newStory.links = {}
-        newStory.links.self = `http://${req.headers.host}/api/stories/${story._id}`
-        return newStory
-      })
-      return res.json(mappedStories)
-    })
+        const newStory = story.toJSON();
+        newStory.links = {};
+        newStory.links.self = `http://${req.headers.host}/api/stories/${story._id}`;
+        return newStory;
+      });
+      return res.json(mappedStories);
+    });
   }
 
   function getById(req, res) {
@@ -41,7 +47,7 @@ function storyController(Story) {
     story.title = req.body.title;
     story.point = req.body.point;
     story.status = req.body.status;
-    req.story.save((err) => {
+    req.story.save(err => {
       if (err) {
         return res.send(err);
       }
@@ -56,12 +62,12 @@ function storyController(Story) {
       /* eslint-disable-next-line no-underscore-dangle */
       delete req.body._id;
     }
-    Object.entries(req.body).forEach((item) => {
+    Object.entries(req.body).forEach(item => {
       const key = item[0];
       const value = item[1];
       story[key] = value;
     });
-    req.story.save((err) => {
+    req.story.save(err => {
       if (err) {
         return res.send(err);
       }
@@ -70,7 +76,7 @@ function storyController(Story) {
   }
 
   function deleteStory(req, res) {
-    req.story.remove((err) => {
+    req.story.remove(err => {
       if (err) {
         return res.send(err);
       }
@@ -79,9 +85,13 @@ function storyController(Story) {
   }
 
   return {
-    get, getById, post, put, patch, deleteStory
+    get,
+    getById,
+    post,
+    put,
+    patch,
+    deleteStory
   };
 }
 
 module.exports = storyController;
-
