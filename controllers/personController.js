@@ -33,6 +33,26 @@ function personController(Person) {
     });
   }
 
+  function patch(req, res) {
+    const { person } = req;
+    /* eslint-disable-next-line no-underscore-dangle */
+    if (req.body._id) {
+      /* eslint-disable-next-line no-underscore-dangle */
+      delete req.body._id;
+    }
+    Object.entries(req.body).forEach(item => {
+      const key = item[0];
+      const value = item[1];
+      person[key] = value;
+    });
+    req.person.save(err => {
+      if (err) {
+        return res.send(err);
+      }
+      return res.json(person);
+    });
+  }
+
   function getById(req, res) {
     return res.json(req.person);
   }
@@ -40,7 +60,8 @@ function personController(Person) {
   return {
     get,
     getById,
-    post
+    post,
+    patch
   };
 }
 
