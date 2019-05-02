@@ -18,7 +18,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 mongoose
-  .connect('mongodb://localhost:27017/scrum_poker_planning', { useNewUrlParser: true })
+  .connect(
+    'mongodb+srv://scrumpokeruser:tpMPhLEqHP43Kbxf@cluster0-l33tb.azure.mongodb.net/scrum_poker_planning?retryWrites=true',
+    { useNewUrlParser: true }
+  )
   .then(() => {
     console.log('Connected to database!');
   })

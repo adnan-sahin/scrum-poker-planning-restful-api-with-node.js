@@ -1,7 +1,6 @@
 function storyController(Story) {
   function post(req, res) {
     const story = new Story(req.body);
-    console.log('story', story);
     if (!req.body.title) {
       res.status(400);
       return res.send({ code: 1002, message: 'Title is required.' });
